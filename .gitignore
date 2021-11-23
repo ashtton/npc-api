@@ -1,0 +1,10 @@
+# IntelliJ Files
+*.iml
+**/.idea
+.idea
+
+# Maven Files
+**/target/
+**/dependency-reduced-pom.xml
+dependency-reduced-pom.xml
+

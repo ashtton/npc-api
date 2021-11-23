@@ -1,5 +1,5 @@
 # NPC API
-This is a lightweight npc library made for spigot\
+This is a lightweight packet based npc library made for spigot\
 Lots more features are planned for this library, this is only a pre-release.
 ### Config Options
 * Default Players - The players the npc is shown to by default

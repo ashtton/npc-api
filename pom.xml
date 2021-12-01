@@ -28,5 +28,11 @@
         <module>v1_16_R1</module>
     </modules>
 
+    <distributionManagement>
+        <snapshotRepository>
+            <id>athen-studios</id>
+            <url>https://repo.athenstudios.net/repository/athen-studios-minecraft/</url>
+        </snapshotRepository>
+    </distributionManagement>
 
 </project>

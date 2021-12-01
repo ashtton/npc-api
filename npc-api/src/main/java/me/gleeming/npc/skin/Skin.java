@@ -38,10 +38,7 @@ public class Skin {
      * @return Game Profile
      */
     public GameProfile toGameProfile(boolean displayCosmetics) {
-        UUID uuid = displayCosmetics ? this.uuid : UUID.randomUUID();
-        String name = this.name == null ? UUID.randomUUID().toString().substring(0, 15) : this.name;
-
-        GameProfile gameProfile = new GameProfile(uuid, name);
+        GameProfile gameProfile = new GameProfile(displayCosmetics ? this.uuid : UUID.randomUUID(), this.name == null ? UUID.randomUUID().toString().substring(0, 15) : this.name);
 
         MojangSkin skin;
         if(uuid != null) skin = MojangRequest.getSkin(uuid);

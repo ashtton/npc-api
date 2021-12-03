@@ -9,8 +9,10 @@ import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R1.CraftServer;
 import org.bukkit.craftbukkit.v1_8_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_8_R1.inventory.CraftItemStack;
 import org.bukkit.craftbukkit.v1_8_R1.scoreboard.CraftScoreboard;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -25,6 +27,9 @@ public class NMSFakePlayer extends NPCFakePlayer {
 
     // This is the fake player to manipulate
     private final EntityPlayer entityPlayer;
+
+    // The item the npc is holding
+    private ItemStack heldItem;
 
     public NMSFakePlayer(GameProfile gameProfile, Location location) {
         entityPlayer = new EntityPlayer(
@@ -52,6 +57,10 @@ public class NMSFakePlayer extends NPCFakePlayer {
         connection.sendPacket(new PacketPlayOutNamedEntitySpawn(entityPlayer));
         rotate(player, entityPlayer.yaw, entityPlayer.pitch);
 
+        if(heldItem != null) {
+            connection.sendPacket(new PacketPlayOutEntityEquipment(entityPlayer.getId(), 0, CraftItemStack.asNMSCopy(heldItem)));
+        }
+
         new Thread() {
             @SneakyThrows
             public void run() {
@@ -66,6 +75,11 @@ public class NMSFakePlayer extends NPCFakePlayer {
         PlayerConnection connection = ((CraftPlayer) player).getHandle().playerConnection;
         connection.sendPacket(new PacketPlayOutPlayerInfo(EnumPlayerInfoAction.REMOVE_PLAYER, entityPlayer));
         connection.sendPacket(new PacketPlayOutEntityDestroy(entityPlayer.getId()));
+    }
+
+    @Override
+    public void holdItem(ItemStack item) {
+        this.heldItem = item;
     }
 
     @Override

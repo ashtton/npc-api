@@ -4,6 +4,7 @@ import lombok.Getter;
 import me.gleeming.npc.handler.NPCListener;
 import me.gleeming.npc.skin.Skin;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,9 @@ public class NPCConfiguration {
     // Show to all players
     private boolean showToAll = false;
 
+    // The item the npc holds
+    private ItemStack heldItem = null;
+
     /**
      * Changes the show to all option
      * @param showToAll Showing to all
@@ -36,6 +40,16 @@ public class NPCConfiguration {
      */
     public NPCConfiguration showToAll(boolean showToAll) {
         this.showToAll = showToAll;
+        return this;
+    }
+
+    /**
+     * Changes the held item
+     * @param heldItem Held Item
+     * @return NPC Configuration
+     */
+    public NPCConfiguration heldItem(ItemStack heldItem) {
+        this.heldItem = heldItem;
         return this;
     }
 

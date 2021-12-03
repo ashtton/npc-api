@@ -2,6 +2,7 @@ package me.gleeming.npc.nms;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 public abstract class NPCFakePlayer {
     /**
@@ -17,6 +18,12 @@ public abstract class NPCFakePlayer {
      * @param player Player
      */
     public abstract void hide(Player player);
+
+    /**
+     * Makes hte NPC hold a specific item
+     * @param item Item
+     */
+    public abstract void holdItem(ItemStack item);
 
     /**
      * Rotates a players looking position

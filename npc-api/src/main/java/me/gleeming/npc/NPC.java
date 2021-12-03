@@ -33,6 +33,7 @@ public class NPC {
 
         players.addAll(config.getDefaultPlayers());
         fakePlayer = (NPCFakePlayer) NPCHandler.getInstance().getNmsController().getNmsFakePlayer().getDeclaredConstructors()[0].newInstance(config.getSkin().toGameProfile(config.isShowCosmetics()), location);
+        fakePlayer.holdItem(config.getHeldItem());
 
         // Shows the NPC to the default players
         players.forEach(uuid -> {

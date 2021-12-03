@@ -11,6 +11,7 @@ import org.bukkit.craftbukkit.v1_9_R2.CraftWorld;
 import org.bukkit.craftbukkit.v1_9_R2.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_9_R2.scoreboard.CraftScoreboard;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -25,6 +26,9 @@ public class NMSFakePlayer extends NPCFakePlayer {
 
     // This is the fake player to manipulate
     private final EntityPlayer entityPlayer;
+
+    // The item the npc is holding
+    private ItemStack heldItem;
 
     public NMSFakePlayer(GameProfile gameProfile, Location location) {
         entityPlayer = new EntityPlayer(
@@ -88,6 +92,11 @@ public class NMSFakePlayer extends NPCFakePlayer {
 
         // Entity add to team packet
         connection.sendPacket(new PacketPlayOutScoreboardTeam(team, Collections.singletonList(entityPlayer.getName()), 3));
+    }
+
+    @Override
+    public void holdItem(ItemStack item) {
+        heldItem = item;
     }
 
     @Override

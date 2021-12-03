@@ -1,6 +1,7 @@
 package me.gleeming.npc.v1_16_R1;
 
 import com.mojang.authlib.GameProfile;
+import com.mojang.datafixers.util.Pair;
 import lombok.SneakyThrows;
 import me.gleeming.npc.nms.NPCFakePlayer;
 import net.minecraft.server.v1_16_R1.*;
@@ -9,12 +10,12 @@ import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_16_R1.CraftServer;
 import org.bukkit.craftbukkit.v1_16_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_16_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_16_R1.inventory.CraftItemStack;
 import org.bukkit.craftbukkit.v1_16_R1.scoreboard.CraftScoreboard;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.UUID;
+import java.util.*;
 
 public class NMSFakePlayer extends NPCFakePlayer {
 
@@ -25,6 +26,9 @@ public class NMSFakePlayer extends NPCFakePlayer {
 
     // This is the fake player to manipulate
     private final EntityPlayer entityPlayer;
+
+    // The item the npc is holding
+    private ItemStack heldItem;
 
     public NMSFakePlayer(GameProfile gameProfile, Location location) {
         entityPlayer = new EntityPlayer(
@@ -51,6 +55,12 @@ public class NMSFakePlayer extends NPCFakePlayer {
         connection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, entityPlayer));
         connection.sendPacket(new PacketPlayOutNamedEntitySpawn(entityPlayer));
         rotate(player, entityPlayer.yaw, entityPlayer.pitch);
+
+        if(heldItem != null) {
+            List<Pair<EnumItemSlot, net.minecraft.server.v1_16_R1.ItemStack>> items = new ArrayList<>();
+            items.add(new Pair<>(EnumItemSlot.MAINHAND, CraftItemStack.asNMSCopy(heldItem)));
+            connection.sendPacket(new PacketPlayOutEntityEquipment(entityPlayer.getId(), items));
+        }
 
         new Thread() {
             @SneakyThrows
@@ -88,6 +98,11 @@ public class NMSFakePlayer extends NPCFakePlayer {
 
         // Entity add to team packet
         connection.sendPacket(new PacketPlayOutScoreboardTeam(team, Collections.singletonList(entityPlayer.getName()), 3));
+    }
+
+    @Override
+    public void holdItem(ItemStack item) {
+        heldItem = item;
     }
 
     @Override

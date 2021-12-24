@@ -1,6 +1,0 @@
-name: test
-author: Gleeming
-version: 1.0-SNAPSHOT
-main: me.gleeming.npc.Test
-commands:
-  test:

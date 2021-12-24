@@ -32,7 +32,7 @@ public class NPC {
         this.config = config;
 
         players.addAll(config.getDefaultPlayers());
-        fakePlayer = (NPCFakePlayer) NPCHandler.getInstance().getNmsController().getNmsFakePlayer().getDeclaredConstructors()[0].newInstance(config.getSkin().toGameProfile(config.isShowCosmetics()), location);
+        fakePlayer = (NPCFakePlayer) NPCHandler.getInstance().getNmsController().getNmsFakePlayer().getDeclaredConstructors()[0].newInstance(config.getSkin(), location, config.isShowCosmetics());
         fakePlayer.holdItem(config.getHeldItem());
 
         // Shows the NPC to the default players

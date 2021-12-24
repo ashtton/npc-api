@@ -19,6 +19,14 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- Used for handling json -->
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>bson</artifactId>
+            <version>4.4.0</version>
+            <scope>compile</scope>
+        </dependency>
+
         <!-- Using 1.8 API for all things non-nms -->
         <dependency>
             <groupId>org.spigotmc</groupId>

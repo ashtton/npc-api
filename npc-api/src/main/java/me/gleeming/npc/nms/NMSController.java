@@ -18,7 +18,7 @@ public class NMSController {
             nmsInjector = Class.forName(npcPackage + ".NMSInjector");
             nmsFakePlayer = (Class<? extends NPCFakePlayer>) Class.forName(npcPackage + ".NMSFakePlayer");
             System.out.println("[NPC] Successfully loaded the NMS classes for version '" + version + "'.");
-        } catch(ClassNotFoundException ex) {
+        } catch(Exception ex) {
             System.out.println("[NPC] There was an error while loading the NMS classes for version '" + version + "'. Are you sure it's supported?");
         }
     }

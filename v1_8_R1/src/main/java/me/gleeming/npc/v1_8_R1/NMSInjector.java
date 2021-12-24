@@ -52,7 +52,7 @@ public class NMSInjector {
 
         PlayerConnection connection = ((CraftPlayer) player).getHandle().playerConnection;
 
-        Field channelField = connection.getClass().getDeclaredField("i");
+        Field channelField = connection.networkManager.getClass().getDeclaredField("i");
         channelField.setAccessible(true);
 
         ChannelPipeline channelPipeline = ((Channel) channelField.get(connection)).pipeline();

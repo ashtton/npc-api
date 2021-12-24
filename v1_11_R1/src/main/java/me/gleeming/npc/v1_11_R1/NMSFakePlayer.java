@@ -1,8 +1,12 @@
 package me.gleeming.npc.v1_11_R1;
 
 import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.properties.Property;
 import lombok.SneakyThrows;
+import me.gleeming.npc.mojang.MojangRequest;
+import me.gleeming.npc.mojang.MojangSkin;
 import me.gleeming.npc.nms.NPCFakePlayer;
+import me.gleeming.npc.skin.Skin;
 import net.minecraft.server.v1_11_R1.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -31,7 +35,15 @@ public class NMSFakePlayer extends NPCFakePlayer {
     // The item the npc is holding
     private ItemStack heldItem;
 
-    public NMSFakePlayer(GameProfile gameProfile, Location location) {
+    public NMSFakePlayer(Skin skin, Location location, boolean displayCosmetics) {
+        GameProfile gameProfile = new GameProfile(displayCosmetics ? skin.getUuid() : UUID.randomUUID(), skin.getName() == null ? UUID.randomUUID().toString().substring(0, 15) : skin.getName());
+
+        MojangSkin mojangSkin;
+        if(skin.getUuid() != null) mojangSkin = MojangRequest.getSkin(skin.getUuid());
+        else mojangSkin = MojangRequest.getSkin(skin.getName());
+
+        gameProfile.getProperties().put("textures", new Property("textures", mojangSkin.getValue(), mojangSkin.getSignature()));
+
         entityPlayer = new EntityPlayer(
                 ((CraftServer) Bukkit.getServer()).getServer(),
                 ((CraftWorld) Bukkit.getWorlds().get(0)).getHandle(),
@@ -41,7 +53,6 @@ public class NMSFakePlayer extends NPCFakePlayer {
 
         entityPlayer.setLocation(location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
     }
-
     @Override
     public void rotate(Player player, float yaw, float pitch) {
         PlayerConnection connection = ((CraftPlayer) player).getHandle().playerConnection;
